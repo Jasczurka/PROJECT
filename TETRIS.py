@@ -68,8 +68,10 @@ def main():
     pygame.mixer.music.play(-1)
     sound = pygame.mixer.Sound('music/failure.wav')
     pause = True
+    music = True
     running = True
-    volume = 1.0
+    volume = 0.1
+    pygame.mixer.music.set_volume(volume)
     while running:
         record1 = get_record()
         rotate = False
@@ -87,11 +89,13 @@ def main():
                     limit = 100
                 elif event.key == pygame.K_SPACE:
                     rotate = True
-                elif event.key == pygame.K_k:
+                if event.key == pygame.K_k:
+                    music = False
                     pygame.mixer.music.pause()
-                elif event.key == pygame.K_l:
+                if event.key == pygame.K_l:
+                    music = True
                     pygame.mixer.music.unpause()
-                elif event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
                     pause = not pause
             if event.type == pygame.KEYUP:
                 limit = 1000
@@ -106,7 +110,8 @@ def main():
                         pygame.mixer.music.set_volume(volume)
 
         if not pause:
-            pygame.mixer.music.unpause()
+            if music:
+                pygame.mixer.music.unpause()
             save_figure = deepcopy(figure)
             for i in range(4):
                 figure[i].x += dx
@@ -128,6 +133,7 @@ def main():
             save_figure = deepcopy(figure)
             center = figure[0]
             if rotate:
+                print(figure)
                 for i in range(4):
                     x = figure[i].y - center.y
                     y = figure[i].x - center.x
@@ -175,7 +181,7 @@ def main():
                         (355, 600))
             screen.blit(font1.render("Чтобы поставить музыку на паузу нажмите K", True, pygame.Color("white")),
                         (355, 615))
-            screen.blit(font1.render("Чтобы позобновить музыку нажмите L", True, pygame.Color("white")),
+            screen.blit(font1.render("Чтобы возобновить музыку нажмите L", True, pygame.Color("white")),
                         (355, 630))
             screen.blit(font1.render("Громкость музыки можно изменить колёсиком мыши", True, pygame.Color("White")),
                         (355, 645))
