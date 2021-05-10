@@ -54,10 +54,10 @@ def main():
     clock = pygame.time.Clock()
     board = [pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
              for x in range(BOARD_WIDTH) for y in range(BOARD_HEIGHT)]
-    main_font = pygame.font.Font("font/19844.otf", 60)
-    font = pygame.font.Font("font/19844.otf", 40)
-    font2 = pygame.font.Font("font/19844.otf", 36)
-    font1 = pygame.font.SysFont("Arial", 12)
+    main_font = pygame.font.SysFont("Times New Roman", 60)
+    font = pygame.font.SysFont("Times New Roman", 40)
+    font2 = pygame.font.SysFont("Times New Roman", 30)
+    font1 = pygame.font.SysFont("Times New Roman", 12)
     tetris = main_font.render('TETRIS', True, pygame.Color('Blue'))
     score = font.render('score:', True, pygame.Color('green'))
 
@@ -81,11 +81,11 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     dx = -1
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     dx = 1
-                elif event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     limit = 100
                 elif event.key == pygame.K_SPACE:
                     rotate = True
@@ -95,7 +95,7 @@ def main():
                 if event.key == pygame.K_l:
                     music = True
                     pygame.mixer.music.unpause()
-                if event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_BACKSPACE:
                     pause = not pause
             if event.type == pygame.KEYUP:
                 limit = 1000
@@ -133,7 +133,6 @@ def main():
             save_figure = deepcopy(figure)
             center = figure[0]
             if rotate:
-                print(figure)
                 for i in range(4):
                     x = figure[i].y - center.y
                     y = figure[i].x - center.x
@@ -177,14 +176,16 @@ def main():
             screen.blit(font.render(str(score1), True, pygame.Color('white')), (390, 550))
             screen.blit(record, (380, 400))
             screen.blit(font.render(record1, True, pygame.Color('white')), (390, 450))
-            screen.blit(font1.render("Для вращения фигуры используйте кнопку Space", True, pygame.Color("white")),
-                        (355, 600))
-            screen.blit(font1.render("Чтобы поставить музыку на паузу нажмите K", True, pygame.Color("white")),
-                        (355, 615))
-            screen.blit(font1.render("Чтобы возобновить музыку нажмите L", True, pygame.Color("white")),
-                        (355, 630))
-            screen.blit(font1.render("Громкость музыки можно изменить колёсиком мыши", True, pygame.Color("White")),
-                        (355, 645))
+            screen.blit(font1.render("Для вращения фигуры используйте кнопку Space.", True, pygame.Color("white")),
+                        (351, 600))
+            screen.blit(font1.render("Чтобы поставить музыку на паузу нажмите K.", True, pygame.Color("white")),
+                        (351, 615))
+            screen.blit(font1.render("Чтобы возобновить музыку нажмите L.", True, pygame.Color("white")),
+                        (351, 630))
+            screen.blit(font1.render("Громкость музыки можно", True, pygame.Color("White")),
+                        (351, 645))
+            screen.blit(font1.render("изменить колёсиком мыши.", True, pygame.Color("White")),
+                        (351, 660))
 
             for i in range(BOARD_WIDTH):
                 if field[0][i]:
@@ -198,8 +199,8 @@ def main():
                     pygame.mixer.music.unpause()
         else:
             pygame.mixer.music.pause()
-            screen.blit(font2.render("Чтобы начать играть, нажмите Esc", True, pygame.Color("white")),
-                        (25, WINDOW_HEIGHT // 2))
+            screen.blit(font2.render("Чтобы начать играть, нажмите BackSpace", True, pygame.Color("white")),
+                        (34, WINDOW_HEIGHT // 2))
 
         pygame.display.flip()
         clock.tick(FPS)
